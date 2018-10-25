@@ -1,12 +1,20 @@
 var Appointments = createReactClass({
+  //displayName is important as it makes it easier to see the 
+  //component hierarchy with the debugging tools
   displayName: 'Appointments',
+  //Function that creates the initial state for the component attributes
   getInitialState: function(){
   	return{
-  	  appointments: this.props.appointments,
-  	  title: 'Team Meeting',
-  	  appt_time: '25 January 2018 9am'
+  	  appointments: this.props.appointments,   //List of appointments from Rails/View
+  	  title: '',
+  	  appt_time: ''
   	}
   },
+  //This function handles the form submission
+  //It creates an appointment params object from the attributes state
+  //And then Posts the info to the /appointments endpoint (our appointments controller)
+  //Once done, it calls the addNewAppointment function with the returned json 
+  //from the controller
   handleFormSubmit: function(){
     var appointment = {title: this.state.title, appt_time: this.state.appt_time};
    $.post('/appointments',
@@ -16,25 +24,36 @@ var Appointments = createReactClass({
           }.bind(this));
 
   },
+  //This function updates the state of the attriubutes
   handleUserInput: function(obj){
-  	console.log(obj)
   	this.setState(obj);
   },
+  //This is the function that will add this new appointment to our appointment list
+  //Without having to refresh the page or reload data from the database
   addNewAppointment: function(appointment){
+    //create a new appointment list by making a copy of the current one
+    //and then pushing the new appointment into this array using the Reac addons
     var appointments = React.addons.update(this.state.appointments, {$push: [appointment]});
+    //Set new state of appointments attribute by sorting that new appointment list
     this.setState({appointments: appointments.sort(function(a,b){
       return new Date(a.appt_time) - new Date(b.appt_time);
     })
   });
 
   },
+  //This is what the component is actually rendering
   render: function() {
 	return(
+    //React components MUST be enclosed between an html tag
 		<div>
+      {/*Comments inside a rendered React component must be formatted like so*/}
+      {/*Render our form component and assign title and appt_time to current state */}
+      {/*Create callback functions onUserInput and onFormSubmit and tie them to local functions*/}
 		  <AppointmentForm title = {this.state.title}
 		  appt_time = {this.state.appt_time}
 		  onUserInput={this.handleUserInput}
       onFormSubmit={this.handleFormSubmit} />
+      {/*Render the appointment list component and pass it the list of appointments*/}
 		  <AppointmentList appointments={this.state.appointments} />
 		</div>
   	  )
