@@ -1,0 +1,2 @@
+web: rbenv sudo rails s -p80 -b192.168.5.124
+client: sh -c 'rm app/assets/webpack/* || true && cd client && npm run build:development'
