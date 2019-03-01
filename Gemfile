@@ -9,7 +9,11 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.7'
 # Use sqlite3 as the database for Active Record
+gem 'rack-cors', :require => 'rack/cors'
 
+gem 'devise_token_auth'
+
+gem 'omniauth'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -61,3 +65,5 @@ gem 'react_on_rails', '6.4.2'
 
 gem 'haml'
 gem 'mini_racer', platforms: :ruby
+
+gem 'devise'

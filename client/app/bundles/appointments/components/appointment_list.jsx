@@ -1,5 +1,5 @@
-import React from 'react';
-import { Appointment } from './appointment';
+import React, { PropTypes } from 'react';
+import Appointment  from './appointment';
 //This is a named export (const not a class)
 export const AppointmentList = ({appointments}) => 
   //This is the appointment list component
@@ -14,6 +14,14 @@ export const AppointmentList = ({appointments}) =>
   	      return (<Appointment appointment={appointment} key={appointment.id} />)
   	    })}  
   	  </div>
+
+      AppointmentList.propTypes = {
+        appointments: PropTypes.array.isRequired
+      }
+
+      AppointmentList.defaultProps = {
+        appointments: []
+      }
   	
 
 
